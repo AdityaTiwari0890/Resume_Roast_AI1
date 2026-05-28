@@ -1,46 +1,26 @@
-name: Resume Roast AI CI Pipeline
+name: Docker CI
 
 on:
   push:
     branches:
-      - main
-
-  pull_request:
-    branches:
-      - main
+      - master
 
 jobs:
-
-  build-and-test:
-
+  docker:
     runs-on: ubuntu-latest
 
     steps:
-
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set Up Python
-        uses: actions/setup-python@v5
+      - name: Login DockerHub
+        uses: docker/login-action@v3
         with:
-          python-version: "3.11"
-
-      - name: Install Dependencies
-        run: |
-          pip install -r requirements.txt
-
-      - name: Run Basic Python Check
-        run: |
-          python -m py_compile app.py
-          python -m py_compile roast_engine.py
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker Image
-        run: |
-          docker build -t resume-roast-ai .
+        run: docker build -t aditya0890/resume_roast_ai .
 
-      - name: Run Docker Container
-        run: |
-          docker run -d -p 5000:5000 --name test-container resume-roast-ai
-
-      - name: Check Running Containers
-        run: docker ps
+      - name: Push Docker Image
+        run: docker push aditya0890/resume_roast_ai
