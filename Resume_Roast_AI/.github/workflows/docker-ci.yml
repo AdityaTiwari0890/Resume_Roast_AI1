@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Image
-        run: docker build -t YOUR_DOCKER_USERNAME/my-ml-app .
+        run: docker build -t YOUR_DOCKER_USERNAME/resume_roast_ai .
 
       - name: Push Image
-        run: docker push YOUR_DOCKER_USERNAME/my-ml-app
+        run: docker push YOUR_DOCKER_USERNAME/resume_roast_ai
